@@ -1,0 +1,77 @@
+/* user */
+.app-lotsofusers #app-content {
+    padding: 1em;
+}
+.app-lotsofusers #app-content label {
+    min-width: 20em;
+    display: inline-block;
+}
+.app-lotsofusers #app-content input {
+    margin-bottom: 1em;
+    background: rgba(240,240,240,0.9);
+    width: 20em;
+}
+
+/* user : add group */
+.app-lotsofusers #app-content .addUser #groupList {
+    display: inline-block;
+    position: relative;
+    top: 10px;
+}
+.app-lotsofusers #app-content .addUser #groupList > input {
+    display: block;
+    margin-bottom: 0;
+    min-width: 30em;
+}
+.app-lotsofusers #app-content .addUser #groupList ul {
+    display: none;
+    position: absolute;
+    left: 0;
+    z-index: 1;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-top-style: none;
+    max-height: 5em;
+    overflow: auto;
+    min-width: 28em;
+}
+.app-lotsofusers #app-content .addUser #groupList ul li {
+    opacity: 0.57;
+    padding-left: .5em;
+}
+.app-lotsofusers #app-content .addUser #groupList ul li:hover, .app-lotsofusers #app-content .addUser #groupList ul li.selected {
+    background-color: #eee;
+    opacity: 1;
+}
+/* user : search */
+.app-lotsofusers #app-content .userSearch input {
+    margin-bottom: 1em;
+    background: rgba(240,240,240,0.9) url('../../../../core/img/actions/search.svg' ) no-repeat 96% 50%;
+    width: 20em;
+    padding-right: 10px;
+}
+.app-lotsofusers #app-content .list {
+    margin-left: 1em;
+}
+.app-lotsofusers #app-content .list li {
+    clear: left;
+    min-height: 2em;
+    opacity: 0.57;
+}
+.app-lotsofusers #app-content .list li:hover {
+    background-color: #eee;
+    opacity: 1;
+}
+.app-lotsofusers #app-content .list .login {
+    float: left;
+    width: 30em;
+}
+.app-lotsofusers #app-content .list .groups {
+    float: left;
+}
+.app-lotsofusers #app-content .more {
+    display: none;
+    margin-left: 1em;
+    margin-top: 1em;
+    font-weight: bold;
+}

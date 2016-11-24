@@ -24,5 +24,6 @@ return [
        ['name' => 'api#users', 'url' => '/api/v1/users/{login}', 'verb' => 'GET'],
        ['name' => 'api#groups', 'url' => '/api/v1/groups/{gid}', 'verb' => 'GET'],
        ['name' => 'api#user', 'url' => '/api/v1/user/{login}', 'verb' => 'GET'],
+       ['name' => 'api#userCreate', 'url' => '/api/v1/user', 'verb' => 'POST'],
     ]
 ];

@@ -54,6 +54,7 @@
                 this.timeoutId = setTimeout(function() {
                     self.collection.search = search;
                     // self.collection.search = RegExp(r, "i").test(text);
+                    self._$resultsList.html('');
                     self.collection.fetch({reset: true});
                 }
                 , 400);
@@ -143,6 +144,7 @@
                     });
 
                 }, this);
+
 
                 this._$resultsList.append(this.template(params));
                 this._$resultsList.show();

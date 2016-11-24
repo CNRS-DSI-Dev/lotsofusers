@@ -32,7 +32,6 @@ class ApiController extends Controller {
 
     /**
      * @return string JSON-ified list of users with groups
-     * @NoCSRFRequired
      */
     public function users($login) {
         $usersList = $this->userManager->search($login);
@@ -58,7 +57,6 @@ class ApiController extends Controller {
 
     /**
      * @return string JSON-ified list of groups, without custom groups
-     * @NoCSRFRequired
      */
     public function groups($gid) {
         $groupsList = $this->groupManager->search($gid);
@@ -78,5 +76,15 @@ class ApiController extends Controller {
 
         return new JSONResponse($params);  // templates/main.php
     }
+
+    /**
+     * create a new local user
+     * @return array aknowledgment
+     */
+    // public function userCreate() {
+
+
+    //     $this->userManager->create()
+    // }
 
 }

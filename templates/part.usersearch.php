@@ -14,6 +14,10 @@
     <button><?php p($l->t('Add local user')); ?></button>
 </div>
 
+<div class="addedUser">
+    <p></p>
+</div>
+
 <br>
 
 <h2><?php p($l->t('Search user')); ?></h2>

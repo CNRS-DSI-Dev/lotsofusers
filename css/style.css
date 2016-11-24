@@ -12,7 +12,11 @@
     width: 20em;
 }
 
-/* user : add group */
+/* user : add */
+.app-lotsofusers #app-content .addedUser {
+    display:none;
+}
+
 .app-lotsofusers #app-content .addUser #groupList {
     display: inline-block;
     position: relative;

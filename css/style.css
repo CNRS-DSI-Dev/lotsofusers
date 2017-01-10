@@ -51,7 +51,7 @@
     opacity: 1;
 }
 /* users : search */
-.app-lotsofusers #app-content .userSearch input {
+.app-lotsofusers #app-content .userSearch input, .app-lotsofusers #app-content .groupSearch input {
     margin-bottom: 1em;
     background: rgba(240,240,240,0.9) url('../../../../core/img/actions/search.svg' ) no-repeat 96% 50%;
     width: 20em;
@@ -69,11 +69,11 @@
     background-color: #eee;
     opacity: 1;
 }
-.app-lotsofusers #app-content .list .login {
+.app-lotsofusers #app-content .list .login, .app-lotsofusers #app-content .list .group {
     float: left;
     width: 30em;
 }
-.app-lotsofusers #app-content .list .groups {
+.app-lotsofusers #app-content .list .groups, .app-lotsofusers #app-content .list .info {
     float: left;
 }
 .app-lotsofusers #app-content .more {
@@ -249,7 +249,8 @@ span.label {
     padding-left: .5em;
 }
 #groups .user  #addGroup ul li:hover, #groups .user  #addGroup ul li.selected,
-#groups .admin  #addAdmin ul li:hover, #groups .admin  #addAdmin ul li.selected {
+#groups .admin  #addAdmin ul li:hover, #groups .admin  #addAdmin ul li.selected,
+.groupsView li.selected {
     background-color: #eee;
     opacity: 1;
 }

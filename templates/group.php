@@ -10,7 +10,7 @@ script('lotsofusers', 'script');
 style('lotsofusers', 'style');
 ?>
 
-<div id="app-user">
+<div id="app-group">
     <div id="app-navigation">
         <?php print_unescaped($this->inc('part.navigation')); ?>
         <?php print_unescaped($this->inc('part.settings')); ?>
@@ -18,7 +18,7 @@ style('lotsofusers', 'style');
 
     <div id="app-content">
         <div id="app-content-wrapper">
-            <?php print_unescaped($this->inc('part.userdetails')); ?>
+            <?php print_unescaped($this->inc('part.groupdetails')); ?>
         </div>
     </div>
 </div>

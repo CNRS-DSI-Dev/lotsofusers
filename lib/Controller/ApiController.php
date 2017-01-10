@@ -95,6 +95,7 @@ class ApiController extends Controller
     /**
      * @return string JSON-ified list of groups, without custom groups
      * @NoAdminRequired
+     * @NoCSRFRequired
      */
     public function groups($gid)
     {
@@ -139,6 +140,7 @@ class ApiController extends Controller
             foreach ($slicedList as $group) {
                 $params['groups'][] = [
                     'gid' => $group->getGID(),
+                    'usersCount' => $group->count(),
                 ];
             }
         }

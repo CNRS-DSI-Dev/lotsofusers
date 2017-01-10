@@ -18,6 +18,8 @@
         _$field: null,
         _$resultsList: null,
         multi: true,
+        clickUrl: false, // or callback function
+        groupsViewTemplate: false,
 
         events: {
             'paste input'   : 'showResults',
@@ -33,7 +35,7 @@
             this._$field = this.$el.find("input");
             // this._$field.wrap('<div id="groupList">');
 
-            this._$resultsList = $("<ul>");
+            this._$resultsList = $("<ul>").addClass('list');
             // this._$resultsList.css({
             //     'width': this._$field.width(),
             // });
@@ -81,6 +83,7 @@
         },
 
         _selectResult: function($target) {
+console.log($target);
             // clear 'selected' classes, then add it back to the desired result
             this._$resultsList.children().removeClass('selected');
             $target.addClass('selected');
@@ -97,9 +100,17 @@
         },
 
         clickSelect: function(e) {
-            if(this._$resultsList.is(':visible')) {
-                this._selectResult($(e.target));
-                this._replace($(e.target).text());
+            var $elt = $(e.target).parent('li').find('span.group');
+            if (!this.clickUrl) {
+                if(this._$resultsList.is(':visible')) {
+                    this._selectResult($elt);
+                    this._replace($elt.text());
+                    this._hideResults();
+                }
+            }
+            else {
+                // this.clickUrl($(e.target).text());
+                this.clickUrl($elt.text());
                 this._hideResults();
             }
         },
@@ -114,14 +125,20 @@
                 if (e.which === 13) { // Enter
                     e.preventDefault();
                     if ($selected.length != 0) {
-                        this._replace($selected.text());
-                        this._hideResults();
+                        if (!this.clickUrl) {
+                            this._replace($selected.find('span.group').text());
+                            this._hideResults();
+                        }
+                        else {
+                            this._hideResults();
+                            this.clickUrl($selected.find('span.group').text());
+                        }
                     }
                 }
                 else if (e.which === 27) { // Esc
                     this._hideResults();
                 }
-                else if (e.which === 38 || e.which === 40) { // Down/Up arrow
+                else if (e.which === 38 || e.which === 40) { // Up/Down arrow
                     if (e.which === 38) {
                         if ($selected.is(':first-child') || $selected.length == 0) {
                             $target = $items.filter(':last-child');
@@ -146,7 +163,12 @@
 
         template: function(vars) {
             if (!this._template) {
-                this._template = Handlebars.compile(SEARCH_GROUPS_TPL);
+                if (!this.groupsViewTemplate) {
+                    this._template = Handlebars.compile(SEARCH_GROUPS_TPL);
+                }
+                else {
+                    this._template = Handlebars.compile(this.groupsViewTemplate);
+                }
             }
             return this._template(vars);
         },
@@ -158,7 +180,8 @@
 
                 this.collection.each(function(group) {
                     params.groups.push({
-                        'gid': group.get('gid')
+                        'gid': group.get('gid'),
+                        'usersCount': group.get('usersCount')
                     });
 
                 }, this);

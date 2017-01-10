@@ -395,6 +395,26 @@
                 }
             );
         }
+
+        // ============= groups details
+        if ($('#app-groups').length) {
+            // ============= group search
+            var groups = new OCA.LotsOfUsers.GroupCollection;
+            var groupsView = new OCA.LotsOfUsers.GroupsView({
+                el: 'div.groupSearch',
+                collection: groups
+            });
+            groupsView.setMulti(false);
+            groupsView.clickUrl = function(group) {
+                OC.redirect(OC.generateUrl('/apps/lotsofusers/groups/' + group));
+            }
+            groupsView.groupsViewTemplate =
+                '{{#if groups}}' +
+                '    {{#each groups}}' +
+                '    <li><span class="group">{{gid}}</span> <span class="info">({{usersCount}} users)</span></li>' +
+                '    {{/each}}' +
+                '{{/if}}';
+        }
     });
 
 })(jQuery, OC, OCA);

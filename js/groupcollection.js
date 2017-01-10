@@ -7,7 +7,7 @@
         totalCount: 0,
 
         url: function() {
-            return '/apps/lotsofusers/api/v1/groups/' + this.search;
+            return OC.generateUrl('/apps/lotsofusers/api/v1/groups/' + this.search);
         },
 
         parse: function(response) {

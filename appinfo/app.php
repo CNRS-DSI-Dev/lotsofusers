@@ -15,7 +15,7 @@ use OCP\AppFramework\App;
 
 require_once __DIR__ . '/autoload.php';
 
-$app = new App('lotsofusers');
+$app = new Application;
 $container = $app->getContainer();
 
 $container->query('\OCP\INavigationManager')->add(function () use ($container) {
@@ -30,7 +30,7 @@ $container->query('\OCP\INavigationManager')->add(function () use ($container) {
         'order' => 10,
 
         // the route that will be shown on startup
-        'href' => $urlGenerator->linkToRoute('lotsofusers.search.users'),
+        'href' => $urlGenerator->linkToRoute('lotsofusers.page.users'),
 
         // the icon that will be shown in the navigation
         // this file needs to exist in img/

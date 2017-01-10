@@ -13,15 +13,17 @@
     var GroupsView = OC.Backbone.View.extend({
         // el: "div#groupList",
         // collection: OCA.LotsOfUsers.GroupCollection,
+        // multi: true,
 
         _$field: null,
         _$resultsList: null,
+        multi: true,
 
         events: {
             'paste input'   : 'showResults',
             'input input'   : 'showResults',
-            'blur input'    : '_hideResults',
-            'blur ul'       : '_hideResults',
+            // 'blur input'    : '_hideResults',
+            // 'blur ul'       : '_hideResults',
             'mousedown li'  : 'clickSelect',
             'keydown input' : 'keyDown'
             // 'keyup input[type=text]' : 'showResults'
@@ -32,13 +34,24 @@
             // this._$field.wrap('<div id="groupList">');
 
             this._$resultsList = $("<ul>");
+            // this._$resultsList.css({
+            //     'width': this._$field.width(),
+            // });
+            this._$resultsList.innerWidth(this._$field);
             this._$field.after(this._$resultsList);
 
             this.listenTo(this.collection, 'sync', this.render);
         },
 
+        setMulti: function(multi) {
+            this.multi = multi;
+        },
+
         showResults: function(e) {
-            var search = this._$field.val().trim().replace(/[-\\^$*+?.()|[\]{}]/g, "\\$&").match(/[^,]* ?$/)[0].trim();
+            var search = this._$field.val().trim().replace(/[-\\^$*+?.()|[\]{}]/g, "\\$&")
+            if (this.multi) {
+                var search = search.match(/[^,]* ?$/)[0].trim();
+            }
 
             if (search.length <= 1) {
                 // this._$more.hide();
@@ -74,8 +87,13 @@
         },
 
         _replace: function(text) {
-            var before = this._$field.val().match(/^.+,\s*|/)[0];
-            this._$field.val(before + text + ", ");
+            if (this.multi) {
+                var before = this._$field.val().match(/^.+,\s*|/)[0];
+                this._$field.val(before + text + ", ");
+            }
+            else {
+                this._$field.val(text);
+            }
         },
 
         clickSelect: function(e) {
@@ -109,7 +127,7 @@
                             $target = $items.filter(':last-child');
                         }
                         else {
-                            $target = $selected.prevAll('li');
+                            $target = $selected.prev('li');
                         }
                     }
                     else {
@@ -117,7 +135,7 @@
                             $target = $items.filter(':first-child');
                         }
                         else {
-                            $target = $selected.nextAll('li');
+                            $target = $selected.next('li');
                         }
                     }
 

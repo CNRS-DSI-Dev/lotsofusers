@@ -5,7 +5,7 @@
     var SEARCH_USERS_TPL =
         '   {{#if users}}' +
         '       {{#each users}}' +
-        '       <li><span class="login"><a href="' + OC.generateUrl('/lotsofusers/users/') + '{{login}}">{{login}}</a></span> <span class="groups">{{groups}}</span></li>' +
+        '       <li><span class="login"><a href="' + OC.generateUrl('/apps/lotsofusers/users/') + '{{login}}">{{login}}</a></span> <span class="groups">{{groups}}</span></li>' +
         '       {{/each}}' +
         '   {{/if}}';
 

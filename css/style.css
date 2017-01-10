@@ -1,6 +1,9 @@
-/* user */
+/* users */
 .app-lotsofusers #app-content {
-    padding: 1em;
+    padding: 1em 3em;
+}
+.app-lotsofusers #app-content h2 span {
+    font-weight: bold;
 }
 .app-lotsofusers #app-content label {
     min-width: 20em;
@@ -12,7 +15,7 @@
     width: 20em;
 }
 
-/* user : add */
+/* users : add */
 .app-lotsofusers #app-content .addedUser {
     display:none;
 }
@@ -47,7 +50,7 @@
     background-color: #eee;
     opacity: 1;
 }
-/* user : search */
+/* users : search */
 .app-lotsofusers #app-content .userSearch input {
     margin-bottom: 1em;
     background: rgba(240,240,240,0.9) url('../../../../core/img/actions/search.svg' ) no-repeat 96% 50%;
@@ -78,4 +81,191 @@
     margin-left: 1em;
     margin-top: 1em;
     font-weight: bold;
+}
+
+/* user details */
+.app-lotsofusers #app-user label {
+    min-width: inherit;
+    display: inline-block;
+}
+.louButton {
+    box-shadow: 2px 2px #ccc;
+    position: relative;
+    top: -2px;
+}
+span.label {
+    width: 8em;
+    display: inline-block;
+}
+.dataBlock {
+    font-size: 120%;
+    width: 40em;
+    float: left;
+    margin-right: 2em;
+    margin-bottom: 2em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding-bottom: 0.5em;
+}
+.dataBlock p, .dataBlock input, .dataBlock label {
+    margin-left: 2em;
+}
+#disk, #restore {
+    clear: left;
+}
+#user p.header {
+    background: url("../img/user.png") no-repeat scroll 5px 12px rgba(0, 0, 0, 0);
+}
+#disk p.header {
+    background: url("../img/disk.png") no-repeat scroll 5px 12px rgba(0, 0, 0, 0);
+}
+#restore p.header {
+    background: url("../img/restore.png") no-repeat scroll 5px 12px rgba(0, 0, 0, 0);
+}
+#mycore p.header {
+    background: url("../img/mycore.png") no-repeat scroll 5px 12px rgba(0, 0, 0, 0);
+}
+#groups p.header {
+    background: url("../img/groups.png") no-repeat scroll 5px 12px rgba(0, 0, 0, 0);
+}
+#migrate p.header {
+    background: url("../img/migrate.png") no-repeat scroll 5px 12px rgba(0, 0, 0, 0);
+}
+#user.dataBlock p.header, #disk.dataBlock p.header, #restore.dataBlock p.header, #mycore.dataBlock p.header, #groups.dataBlock p.header, #migrate.dataBlock p.header {
+    font-weight: bold;
+    background-color: #eee;
+    padding: 1em 1em 1em 45px;
+    margin-left:0;
+    margin-bottom: 0.5em;
+}
+#changepass {
+    margin-top: 1em;
+    margin-left: 1em;
+}
+#deluser {
+    margin-top: 1em;
+    margin-right: 1em;
+    float: right;
+}
+#user #newpass {
+    clear: left;
+    display: none;
+}
+#user #validatepass {
+    display: none;
+}
+.dataBlock p.header span {
+    float: right;
+    font-size: 120%;
+}
+#disk > div {
+    width: 48%;
+    float: left;
+    margin-bottom: 2em;
+}
+#disk #quotaValue {
+    margin-left: 1em;
+}
+#disk #diskUsage {
+    margin-left: inherit;
+}
+#disk input#newquota {
+    margin-left: 1em;
+    width: 10em;
+}
+#quotabar {
+    border-radius: 5px;
+    border: 3px solid #666;
+    width: 90%;
+    margin-left: ;
+}
+#quotabar > div {
+    border-radius: 3px;
+    background-color: #ccc;
+    height: 20px;
+}
+#groups > div {
+    width: 45%;
+    float: left;
+    margin-bottom: 2em;
+    margin-left: 1em;
+}
+#groups > div > p {
+    margin-left: 0;
+}
+#groups .user > div, #groups .admin > div {
+    margin-left: 1em;
+    max-height: 4em;
+    min-height: 2em;
+    overflow: auto;
+    margin-bottom: 1em;
+}
+#groups .user > div > div, #groups .admin > div > div{
+    opacity: 0.5;
+}
+#groups .user > div > div:hover, #groups .admin > div > div:hover{
+    background-color: #eee;
+    opacity: 1;
+}
+#groups .user > div > div:hover img, #groups .admin > div > div:hover img{
+    opacity: 1;
+    cursor: pointer;
+}
+#groups .user > div img, #groups .admin > div img {
+    float: right;
+    margin-right: 1em;
+    opacity: 0.5;
+}
+#groups .user input, #groups .admin input {
+    margin-left: 0;
+}
+#groups .user  #addGroup, #groups .admin  #addAdmin {
+    display: inline-block;
+    min-height: inherit;
+    max-height: inherit;
+    margin-left: 0;
+    margin-bottom: 1em;
+    position: relative;
+}
+#groups .user  #addGroup > input, #groups .admin  #addAdmin > input {
+    display: block;
+    margin-bottom: 0;
+    min-width: 20em;
+    position: relative;
+}
+#groups .user  #addGroup ul, #groups .admin  #addAdmin ul {
+    display: none;
+    left: 0;
+    z-index: 100;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-top-style: none;
+    max-height: 5em;
+    overflow: auto;
+    // min-width: 15em;
+}
+#groups .user  #addGroup ul li, #groups .admin  #addAdmin ul li {
+    opacity: 0.57;
+    padding-left: .5em;
+}
+#groups .user  #addGroup ul li:hover, #groups .user  #addGroup ul li.selected,
+#groups .admin  #addAdmin ul li:hover, #groups .admin  #addAdmin ul li.selected {
+    background-color: #eee;
+    opacity: 1;
+}
+#restore ul, #migrate ul {
+    margin: 1em 1em 0.5em 1em;
+    color: #666;
+}
+#restore ul li, #migrate ul li {
+}
+#restore ul strong, #migrate ul strong {
+    color: #000;
+}
+#restore li:hover, #migrate li:hover {
+    background: #eee;
+    color: #000;
+}
+#restore li span, #migrate li span{
+    float: right;
 }

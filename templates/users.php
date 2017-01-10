@@ -10,7 +10,7 @@ script('lotsofusers', 'script');
 style('lotsofusers', 'style');
 ?>
 
-<div id="app">
+<div id="app-users">
 	<div id="app-navigation">
 		<?php print_unescaped($this->inc('part.navigation')); ?>
 		<?php print_unescaped($this->inc('part.settings')); ?>

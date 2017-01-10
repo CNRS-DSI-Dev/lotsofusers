@@ -19,11 +19,12 @@
  */
 return [
     'routes' => [
-       ['name' => 'search#users', 'url' => '/', 'verb' => 'GET'],
-       ['name' => 'search#do_echo', 'url' => '/echo', 'verb' => 'POST'],
-       ['name' => 'api#users', 'url' => '/api/v1/users/{login}', 'verb' => 'GET'],
-       ['name' => 'api#groups', 'url' => '/api/v1/groups/{gid}', 'verb' => 'GET'],
-       ['name' => 'api#user', 'url' => '/api/v1/user/{login}', 'verb' => 'GET'],
-       ['name' => 'api#userCreate', 'url' => '/api/v1/user', 'verb' => 'POST'],
+       ['verb' => 'GET',  'name' => 'page#users', 'url' => '/'],
+       ['verb' => 'GET',  'name' => 'page#user', 'url' => '/users/{username}'],
+       ['verb' => 'POST', 'name' => 'page#do_echo', 'url' => '/echo'],
+       ['verb' => 'GET',  'name' => 'api#users', 'url' => '/api/v1/users/{login}'],
+       ['verb' => 'GET',  'name' => 'api#groups', 'url' => '/api/v1/groups/{gid}'],
+       ['verb' => 'GET',  'name' => 'api#user', 'url' => '/api/v1/user/{login}'],
+       ['verb' => 'POST', 'name' => 'api#userCreate', 'url' => '/api/v1/user'],
     ]
 ];

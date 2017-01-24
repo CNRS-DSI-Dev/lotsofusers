@@ -1,52 +1,29 @@
-# Lots Of Users
-Place this app in **owncloud/apps/**
+# Lots of Users
 
-## Building the app
+Owncloud 9 app that provides users and group management.
+This app is helpfull if you have lots (several thousands) of groups and users to manage in owncloud.
 
-The app can be built by using the provided Makefile by running:
+The app is specifically designed for CNRS needs for now (there are some informations displayed that are existing only in CNRS instance).
 
-    make
+## Install
 
-This requires the following things to be present:
-* make
-* which
-* tar: for building the archive
-* curl: used if phpunit and composer are not installed to fetch them from the web
-* npm: for building and testing everything JS, only required if a package.json is placed inside the **js/** folder
+The lotsofusers app must be put in the owncloud apps directory, with the name "lotsofusers" (without any number).
 
-The make command will install or update Composer dependencies if a composer.json is present and also **npm run build** if a package.json is present in the **js/** folder. The npm **build** script should use local paths for build systems and package managers, so people that simply want to build the app won't need to install npm libraries globally, e.g.:
+Dashboard app can be accessed only by admin or subadmins.
 
-**package.json**:
-```json
-"scripts": {
-    "test": "node node_modules/gulp-cli/bin/gulp.js karma",
-    "prebuild": "npm install && node_modules/bower/bin/bower install && node_modules/bower/bin/bower update",
-    "build": "node node_modules/gulp-cli/bin/gulp.js"
-}
-```
+## Contributing
 
+This app is developed for an internal deployement of ownCloud at CNRS (French National Center for Scientific Research).
 
-## Publish to App Store
+If you want to be informed about this ownCloud project at CNRS, please contact david.rousse@dsi.cnrs.fr, gilian.gambini@dsi.cnrs.fr or marc.dexet@dsi.cnrs.fr
 
-First get an account for the [App Store](http://apps.owncloud.com/) then run:
+## License and Author
 
-    make appstore
+|                      |                                          |
+|:---------------------|:-----------------------------------------|
+| **Author:**          | Patrick Paysant (<ppaysant@linagora.com>)
+| **Copyright:**       | Copyright (c) 2017 CNRS DSI
+| **License:**         | AGPL v3, see the COPYING file.
 
-The archive is located in build/artifacts/appstore and can then be uploaded to the App Store.
-
-## Running tests
-You can use the provided Makefile to run all tests by using:
-
-    make test
-
-This will run the PHP unit and integration tests and if a package.json is present in the **js/** folder will execute **npm run test**
-
-Of course you can also install [PHPUnit](http://phpunit.de/getting-started.html) and use the configurations directly:
-
-    phpunit -c phpunit.xml
-
-or:
-
-    phpunit -c phpunit.integration.xml
-
-for integration tests
+* Icons are from [GLYPHICONS.com](http://glyphicons.com/) released under [Creative Commons Attribution 3.0 Unported (CC BY 3.0)](http://creativecommons.org/licenses/by/3.0/).
+* This app use an DataTables plugin for jQuery, provided on [https://datatables.net/](https://datatables.net/) and available under the [MIT license](http://opensource.org/licenses/MIT).

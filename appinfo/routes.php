@@ -28,5 +28,6 @@ return [
        ['verb' => 'GET',  'name' => 'api#groups', 'url' => '/api/v1/groups/{gid}'],
        ['verb' => 'GET',  'name' => 'api#user', 'url' => '/api/v1/user/{login}'],
        ['verb' => 'POST', 'name' => 'api#userCreate', 'url' => '/api/v1/user'],
+       ['verb' => 'GET',  'name' => 'api#diskUsage', 'url' => '/api/v1/diskusage/{uid}'],
     ]
 ];

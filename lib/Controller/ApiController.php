@@ -15,6 +15,7 @@ use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Controller;
+use OCA\LotsOfUsers\Helper;
 
 class ApiController extends Controller
 {
@@ -23,13 +24,15 @@ class ApiController extends Controller
     private $userId;
     private $userManager;
     private $groupManager;
+    private $helper;
 
-    public function __construct($AppName, IRequest $request, $UserId, \OCP\IUserManager $userManager, \OCP\IGroupManager $groupManager)
+    public function __construct($AppName, IRequest $request, $UserId, \OCP\IUserManager $userManager, \OCP\IGroupManager $groupManager, Helper $helper)
     {
         parent::__construct($AppName, $request);
         $this->userId = $UserId;
         $this->userManager = $userManager;
         $this->groupManager = $groupManager;
+        $this->helper = $helper;
     }
 
     /**
@@ -148,4 +151,41 @@ class ApiController extends Controller
         return new JSONResponse($params);  // templates/main.php
     }
 
+    /**
+     * Returns disk usage for a user
+     * @NoAdminRequired
+     * @param  string $uid User id
+     * @return json
+     */
+    public function diskUsage($uid)
+    {
+        \OC_Util::checkSubAdminUser();
+
+        if (is_null($uid)) {
+            $response = new JSONResponse();
+            return array(
+                'status' => 'error',
+                'data' => array(
+                    'msg' => 'No uid given',
+                ),
+            );
+        }
+
+        $user = $this->userManager->get($uid);
+        $currentUser = $this->userManager->get($this->userId);
+
+        $isAdmin = $this->groupManager->isAdmin($this->userId);
+
+        if (!$isAdmin and !$this->groupManager->getSubAdmin()->isUserAccessible($currentUser, $user)) {
+            return array(
+                'status' => 'error',
+                'data' => array(
+                    'msg' => 'Authentication error',
+                ),
+            );
+        }
+
+        $diskUsage = $this->helper->diskUsage($uid)['size'];
+        return new JSONResponse($diskUsage);
+    }
 }

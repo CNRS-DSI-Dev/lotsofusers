@@ -1,12 +1,11 @@
 <?php
+script('lotsofusers', 'datatables.min');
 script('lotsofusers', 'app');
 script('lotsofusers', 'usermodel');
 script('lotsofusers', 'usercollection');
 script('lotsofusers', 'usersview');
-script('lotsofusers', 'groupmodel');
-script('lotsofusers', 'groupcollection');
-script('lotsofusers', 'groupsview');
 script('lotsofusers', 'script');
+style('lotsofusers', 'datatables.min');
 style('lotsofusers', 'style');
 ?>
 

@@ -46,7 +46,7 @@
         <div class="groupList">
         <?php foreach($_['groups'] as $group): ?>
             <div>
-                <span><?php p($group); ?></span>
+                <span><a href="<?php p(\OC::$server->getURLGenerator()->linkToRoute('lotsofusers.page.group', ['groupname' => $group])); ?>"><?php p($group); ?></a></span>
                 <img class="action" data-gid="<?php p($group); ?>" data-uid="<?php p($_['username']); ?>" src="<?php p(\OC::$server->getURLGenerator()->imagePath('core', 'actions/delete.svg')); ?>">
             </div>
         <?php endforeach; ?>
@@ -63,7 +63,7 @@
         <div class="adminList">
         <?php foreach($_['groupsAdmin'] as $group): ?>
             <div>
-                <span><?php p($group); ?></span>
+                <span><a href="<?php p(\OC::$server->getURLGenerator()->linkToRoute('lotsofusers.page.group', ['groupname' => $group])); ?>"><?php p($group); ?></a></span>
                 <img class="action" data-gid="<?php p($group); ?>" data-uid="<?php p($_['username']); ?>" src="<?php p(\OC::$server->getURLGenerator()->imagePath('core', 'actions/delete.svg')); ?>">
             </div>
         <?php endforeach; ?>

@@ -49,6 +49,7 @@
     }
 
     $(document).ready(function () {
+        // ============= user search and create page
         if ($('#app-users').length) {
             // ============= user search
             var users = new OCA.LotsOfUsers.UserCollection;
@@ -115,7 +116,7 @@
             });
         }
 
-        // ============= user details
+        // ============= user details page
         if ($('#app-user').length) {
 
             // group completion
@@ -396,7 +397,7 @@
             );
         }
 
-        // ============= groups details
+        // ============= groups search and create page
         if ($('#app-groups').length) {
             // ============= group search
             var groups = new OCA.LotsOfUsers.GroupCollection;
@@ -414,6 +415,105 @@
                 '    <li><span class="group">{{gid}}</span> <span class="info">({{usersCount}} users)</span></li>' +
                 '    {{/each}}' +
                 '{{/if}}';
+
+            // ============= create group
+            $('div.addGroup button').on('click', function() {
+                if ($('.addedGroup').is(':visible')) {
+                    $('.addedGroup').hide();
+                }
+
+                var groupname = $('#groupname').val();
+                if ($.trim(groupname) === '') {
+                    OC.Notification.showTemporary(t('settings', 'Error creating group: {message}', {
+                        message: t('settings', 'A valid groupname must be provided')
+                    }));
+                    return false;
+                }
+
+                $.post(
+                    OC.generateUrl('/settings/users/groups'),
+                    {
+                        id: groupname
+                    },
+                    function (result) {
+                        $('#groupname').val('');
+                        $('.addedGroup p').html(
+                            t('lotsofusers', 'Group successfully created: ')
+                            + '<a href="' + OC.generateUrl('/apps/lotsofusers/groups/' + result.groupname) + '">'
+                            + result.groupname
+                            + '</a>'
+                        );
+                        $('.addedGroup').show();
+                    }).fail(function(result) {
+                        OC.Notification.showTemporary(t('settings', 'Error creating group: {message}', {
+                            message: result.responseJSON.message
+                        }, undefined, {escape: false}));
+                    }
+                );
+            });
+        }
+
+        // ============= group details page
+        if ($('#app-group').length) {
+            var tableUsers = $('#tableUsers').DataTable({
+                stateSave: true,
+                "columnDefs": [
+                    {
+                        "targets": [ 0 ],
+                        "render": function(data, type, row) {
+                            return '<a href="' + OC.generateUrl('/apps/lotsofusers/users/' + data) + '">' + data + '</a>';
+                        }
+                    },
+                    {
+                        "targets": [ 2 ],
+                        "visible": false,
+                        "searchable": false
+                    },
+                    {
+                        "targets": -1,
+                        className: "diskUsage",
+                        // "data": null,
+                        // "defaultContent": "<button>Calculate</button>"
+                        "render": function(data) {
+                            // if (data == undefined || data.trim() == '') {
+                                if (!data) {
+                                return "";
+                            }
+                            return data;
+                        }
+                    }
+                ],
+            });
+
+            // display diskUsage of a user
+            $('#tableUsers tbody').on('click', 'td.diskUsage', function() {
+                var cell = tableUsers.cell(this);
+                var data = tableUsers.row($(this).parents('tr')).data();
+
+                $.ajax({
+                    url: OC.generateUrl('/apps/lotsofusers/api/v1/diskusage/' + data[0]),
+                    success: function(result) {
+                        if (!result) {
+                            result = "No space used";
+                        }
+                        else {
+                            result = OC.Util.humanFileSize(result);
+                        }
+                        cell.data(result).draw();//.invalidate('data')
+                    }
+                });
+            });
+
+            // visibility of columns
+            $('a.toggle-vis').on('click', function (e) {
+                e.preventDefault();
+
+                // Get the column API object
+                var column = tableUsers.column($(this).attr('data-column'));
+
+                // Toggle the visibility
+                column.visible(! column.visible());
+            });
         }
     });
 

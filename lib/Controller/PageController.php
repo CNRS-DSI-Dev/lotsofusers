@@ -129,8 +129,33 @@ class PageController extends Controller
     {
         \OC_Util::checkSubAdminUser();
 
+        $group = $this->groupManager->get($groupname);
+        if (empty($group)) {
+            return new RedirectResponse($this->urlGenerator->linkToRoute('lotsofusers.page.groups'));
+        }
+
+        $currentUser = $this->userManager->get($this->userId);
+        $isAdmin = $this->groupManager->isAdmin($this->userId);
+
+        if (!$isAdmin and !$this->groupManager->getSubAdmin()->isSubAdminofGroup($currentUser, $group)) {
+            return new RedirectResponse($this->urlGenerator->linkToRoute('lotsofusers.page.groups'));
+        }
+
+        $users = $group->getUsers();
+
+        $userList = [];
+        foreach($users as $user) {
+            $row = [
+                'uid' => $user->getUID(),
+                'groups' => join(', ', $this->groupManager->getUserGroupIds($user)),
+                'quota' => $user->getQuota(),
+            ];
+            $userList[$row['uid']] = $row;
+        }
+
         $params = [
-            'groupname' => $groupname
+            'groupname' => $groupname,
+            'userList' => $userList,
         ];
         return new TemplateResponse('lotsofusers', 'group', $params);
     }

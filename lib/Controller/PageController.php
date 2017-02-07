@@ -153,8 +153,14 @@ class PageController extends Controller
             $userList[$row['uid']] = $row;
         }
 
+        $subAdmins = $this->subAdmin->getGroupsSubAdmins($group);
+        if (!empty($subAdmins)) {
+            $subAdmins = array_map(function($item) {return $item->getUID();}, $subAdmins);
+        }
+
         $params = [
             'groupname' => $groupname,
+            'subadmins' => $subAdmins,
             'userList' => $userList,
         ];
         return new TemplateResponse('lotsofusers', 'group', $params);

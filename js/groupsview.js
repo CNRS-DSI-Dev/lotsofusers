@@ -24,8 +24,8 @@
         events: {
             'paste input'   : 'showResults',
             'input input'   : 'showResults',
-            // 'blur input'    : '_hideResults',
-            // 'blur ul'       : '_hideResults',
+            'blur input'    : '_hideResults',
+            'blur ul'       : '_hideResults',
             'mousedown li'  : 'clickSelect',
             'keydown input' : 'keyDown'
             // 'keyup input[type=text]' : 'showResults'
@@ -79,11 +79,25 @@
         _hideResults: function(e) {
             this._$resultsList.hide();
             this._$resultsList.html('');
-            this._$field.focus();
+        },
+
+        clickSelect: function(e) {
+            var $elt = $(e.target).parent('li').find('span.group');
+
+            if (!this.clickUrl) {
+                if(this._$resultsList.is(':visible')) {
+                    this._selectResult($elt);
+                    this._replace($elt.text());
+                    this._hideResults();
+                }
+            }
+            else {
+                this.clickUrl($elt.text());
+                this._hideResults();
+            }
         },
 
         _selectResult: function($target) {
-console.log($target);
             // clear 'selected' classes, then add it back to the desired result
             this._$resultsList.children().removeClass('selected');
             $target.addClass('selected');
@@ -96,22 +110,6 @@ console.log($target);
             }
             else {
                 this._$field.val(text);
-            }
-        },
-
-        clickSelect: function(e) {
-            var $elt = $(e.target).parent('li').find('span.group');
-            if (!this.clickUrl) {
-                if(this._$resultsList.is(':visible')) {
-                    this._selectResult($elt);
-                    this._replace($elt.text());
-                    this._hideResults();
-                }
-            }
-            else {
-                // this.clickUrl($(e.target).text());
-                this.clickUrl($elt.text());
-                this._hideResults();
             }
         },
 

@@ -57,6 +57,10 @@
                 el: 'div.userSearch',
                 collection: users
             });
+            usersView.setMulti(false);
+            usersView.clickUrl = function(user) {
+                OC.redirect(OC.generateUrl('/apps/lotsofusers/users/' + user));
+            }
 
             // ============= group search for user creation
             var groups = new OCA.LotsOfUsers.GroupCollection;
@@ -152,6 +156,7 @@
             // display change password form
             $('#changepass').on('click', function() {
                 $('#newpass').toggle();
+                $('#newpass').focus();
                 $('#validatepass').toggle();
             });
 

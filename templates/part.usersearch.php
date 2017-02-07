@@ -6,10 +6,11 @@
     <label for="addGroup"><?php p($l->t('Groups')); ?></label>
 </div>
 <div class="addUser">
-    <input type="text" name="username" id="username">
-    <input type="password" name="password" id="password">
+    <div style="display: inline-block;"><input type="text" name="username" id="username" autocomplete="username"></div>
+    <div style="display: inline-block;"><input type="password" name="password" id="password" autocomplete="new-password"></div>
+    <datalist id="bip"></datalist>
     <div id="groupList">
-        <input type="text" name="groups" id="addGroup">
+        <input type="text" name="groups" id="addGroup" autocomplete="off">
     </div>
     <button><?php p($l->t('Add local user')); ?></button>
 </div>

@@ -1,6 +1,22 @@
 <h2><?php p($l->t('Group')); ?> <span><?php p($_['groupname']); ?></span></h2>
 
-<?php p($l->t('User list')); ?>
+
+<p><?php p($l->t('SubAdmins')); ?> :
+<?php
+    $results = [];
+    foreach($_['subadmins'] as $username) {
+        $results[] = "<a href=\""
+                    . \OC::$server->getURLGenerator()->linkToRoute('lotsofusers.page.user', ['username' => $username])
+                    . "\">"
+                    . $username
+                    . "</a>";
+    }
+    $subAdmins = join(', ', $results);
+    print_unescaped($subAdmins);
+?>
+</p>
+
+<h3><?php p($l->t('User list')); ?></h3>
 
 <p><?php p($l->t('Toggle:')); ?> <a class="toggle-vis" data-column="2">Quota</a></p>
 

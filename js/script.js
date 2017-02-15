@@ -41,6 +41,7 @@
                 }, undefined, {escape: false}));
             },
             error: function (jqXHR) {
+                $('#newpass').val('');
                 OC.Notification.showTemporary(t('lotsofusers', 'Unable to change password for {username}', {
                     username: username
                 }, undefined, {escape: false}));

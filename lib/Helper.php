@@ -13,6 +13,11 @@ class Helper {
         $this->db = $db;
     }
 
+    /**
+     * Returns disk space used by a user
+     * @param  string $username (userId)
+     * @return array ['user_id', 'size']
+     */
     public function diskUsage($username) {
         $sql = "SELECT m.user_id, fc.size
             FROM oc_mounts m, oc_filecache fc, oc_storages s
@@ -29,6 +34,34 @@ class Helper {
         $row = $stmt->fetch();
 
         return $row;
+    }
+
+    /**
+     * Verify if lotsofgroups filter is enabled (see general settings screen, "Lots of Groups" section)
+     * @return boolean
+     */
+    public static function isLotsOfGroupsFilterEnabled()
+    {
+        $appConfig = \OC::$server->getAppConfig();
+        $result = $appConfig->getValue('lotsofgroups', 'lotsofgroups_filter_enabled', 'no');
+        return ($result === 'yes') ? true : false;
+    }
+
+    /**
+     * Get the lotsofgroups filter
+     * @return string
+     */
+    public static function getLotsOfGroupsFilter()
+    {
+        $result = '';
+
+        if (self::isLotsOfGroupsFilterEnabled()) {
+            $appConfig = \OC::$server->getAppConfig();
+            $result = $appConfig->getValue('lotsofgroups', 'lotsofgroups_filter', 'GC_');
+
+        }
+
+        return $result;
     }
 
 }

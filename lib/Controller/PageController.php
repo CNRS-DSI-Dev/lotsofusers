@@ -84,13 +84,31 @@ class PageController extends Controller
         // $dirInfo = $fs::getFileInfo('/', false);
         // $infos = \OC_Helper::getStorageInfo('/', $dirInfo);
 
+        $filter = Helper::getLotsOfGroupsFilter();
+
         $diskUsage = $this->helper->diskUsage($username);
         $quota = \OCP\Util::computerFileSize($user->getQuota());
         $quotabar = $diskUsage['size'] * 100 / $quota;
         $groups = $this->groupManager->getUserGroupIds($user);
+        if (!empty($groups) and !empty($filter)) {
+            foreach($groups as $key => $group) {
+                if (strpos($group, $filter) !== false) {
+                    unset($groups[$key]);
+                }
+            }
+        }
+
         $groupsAdmin = $this->subAdmin->getSubAdminsGroups($user);
         if (!empty($groupsAdmin)) {
             $groupsAdmin = array_map(function($item) {return $item->getGID();}, $groupsAdmin);
+
+            if (!empty($filter)) {
+                foreach($groupsAdmin as $key => $groupID) {
+                    if (strpos($groupID, $filter) !== false) {
+                        unset($groupsAdmin[$key]);
+                    }
+                }
+            }
         }
 
         $params = [

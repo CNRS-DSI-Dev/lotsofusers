@@ -134,6 +134,15 @@ class ApiController extends Controller
             }
         }
 
+        $filter = Helper::getLotsOfGroupsFilter();
+        if (!empty($groupsList) and !empty($filter)) {
+            foreach($groupsList as $key => $group) {
+                if (strpos($group->getGID(), $filter) !== false) {
+                    unset($groupsList[$key]);
+                }
+            }
+        }
+
         $params = [];
         $params['groups'] = [];
         $params['totalCount'] = count($groupsList);

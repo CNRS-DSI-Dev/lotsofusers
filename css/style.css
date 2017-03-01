@@ -272,3 +272,26 @@ span.label {
 #restore li span, #migrate li span{
     float: right;
 }
+/* Advanced search page */
+#app-search #searchForm > div{
+    // display: table;
+}
+#app-search #searchForm div div {
+    // display: table-cell;
+    float: left;
+    display: inline;
+    width: 20%;
+    min-height: 2em;
+    text-align: center;
+}
+#app-search #formAction {
+    clear: both;
+    // text-align: center;
+}
+#app-search #searchResults ul {
+    list-style-type: none;
+    max-width: 60em;
+}
+#app-search #searchResults li {
+    padding: 5px;
+}

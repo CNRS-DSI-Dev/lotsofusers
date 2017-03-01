@@ -8,7 +8,7 @@
  * @copyright 2016 CNRS DSI
  */
 
-(function ($, OC, OCA) {
+(function ($, OC, OCA, moment) {
 
     function delUser(username) {
         $.ajax({
@@ -45,6 +45,58 @@
                 OC.Notification.showTemporary(t('lotsofusers', 'Unable to change password for {username}', {
                     username: username
                 }, undefined, {escape: false}));
+            }
+        });
+    }
+
+    /**
+     * [search description]
+     * @param  {[type]} parameters [description]
+     * @return {[type]}            [description]
+     */
+    function search(parameters) {
+console.log(parameters);
+        $.ajax({
+            url: OC.generateUrl('/apps/lotsofusers/api/v1/search'),
+            method: 'POST',
+            data: parameters,
+            dataType: 'json'
+        })
+        .done(function(data) {
+            if (data.users) {
+                if ($('#searchResults ul').length) {
+                    $('#searchResults ul').empty();
+                    $_ul = $('#searchResults ul');
+                }
+                else {
+                    $_ul = $('<ul>');
+                }
+                $.each(data.users, function(idx, user) {
+                    groups = '';
+                    if (user.groupIds) {
+                        var groups = ', groups: ' + user.groupIds;
+                    }
+
+                    lastConnection = '';
+                    if (user.lastConnection) {
+                        var locale = moment.locale();
+
+                        var jsDate = moment.unix(user.lastConnection);
+                        if (locale == 'fr') {
+                            jsDate = jsDate.format('DD/MM/YYYY');
+                        }
+                        else {
+                            jsDate = jsDate.format('MM/DD/YYYY');
+                        }
+                        var lastConnection = ', last connection: ' + jsDate;
+                    }
+
+                    $user_p = $('<li>');
+                    $user_p.text(user.uid + groups + lastConnection)
+
+                    $_ul.append($user_p);
+                });
+                $('#searchResults').append($_ul);
             }
         });
     }
@@ -521,6 +573,34 @@
                 column.visible(! column.visible());
             });
         }
+
+        // ============= search page
+        if ($('#app-search').length) {
+            $('#searchForm').on('submit', function(e) {
+                e.preventDefault();
+
+                var quotaMin = $('#userQuota').val();
+                var userId = $('#userId').val();
+                var groupId = $('#groupId').val();
+
+                var lastConnectionAfter = $('#lastUserConnection').val();
+                var locale = moment.locale();
+                if (locale == 'fr') {
+                    lastConnectionAfter = moment(lastConnectionAfter, 'DD/MM/YYYY');
+                }
+                else {
+                    lastConnectionAfter = moment(lastConnectionAfter, 'MM/DD/YYYY');
+                }
+                lastConnectionAfter = lastConnectionAfter.unix();
+
+                search({
+                    quotaMin: quotaMin,
+                    userId: userId,
+                    groupId: groupId,
+                    lastConnectionAfter: lastConnectionAfter
+                })
+            });
+        }
     });
 
-})(jQuery, OC, OCA);
+})(jQuery, OC, OCA, moment);

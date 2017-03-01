@@ -16,6 +16,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Controller;
 use OCA\LotsOfUsers\Helper;
+use OCA\LotsOfUsers\Service\UserService;
 
 class ApiController extends Controller
 {
@@ -25,14 +26,16 @@ class ApiController extends Controller
     private $userManager;
     private $groupManager;
     private $helper;
+    private $userService;
 
-    public function __construct($AppName, IRequest $request, $UserId, \OCP\IUserManager $userManager, \OCP\IGroupManager $groupManager, Helper $helper)
+    public function __construct($AppName, IRequest $request, $UserId, \OCP\IUserManager $userManager, \OCP\IGroupManager $groupManager, Helper $helper, UserService $userService)
     {
         parent::__construct($AppName, $request);
         $this->userId = $UserId;
         $this->userManager = $userManager;
         $this->groupManager = $groupManager;
         $this->helper = $helper;
+        $this->userService = $userService;
     }
 
     /**
@@ -196,5 +199,31 @@ class ApiController extends Controller
 
         $diskUsage = $this->helper->diskUsage($uid)['size'];
         return new JSONResponse($diskUsage);
+    }
+
+    function search() {
+        $quotaMin = \OCP\Util::computerFileSize($this->params('quotaMin', 0));
+        $uidContains = $this->params('userId', '');
+        $gidContains = $this->params('groupId', '');
+        $lastConnectionAfter = $this->params('lastConnectionAfter', '');
+
+        $params = [
+            'quotaMin' => $quotaMin,
+            'uidContains' => $uidContains,
+            'gidContains' => $gidContains,
+            'lastConnectionAfter' => $lastConnectionAfter,
+        ];
+
+        // TODO: comment gérer le critère "quota"
+        $userIds = $this->userService->users($params);
+        // TODO: filtrer le résultat pour les subadmins
+        // TODO: limiter le nb de résultats, indiquer le nb de résultats total
+        // TODO: proposer un export CSV complet (tous les résultats)
+
+        $usersList = [
+            'users' => $userIds,
+        ];
+
+        return new JSONResponse($usersList);
     }
 }

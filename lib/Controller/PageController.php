@@ -183,4 +183,29 @@ class PageController extends Controller
         ];
         return new TemplateResponse('lotsofusers', 'group', $params);
     }
+
+    /**
+     * Display advanced search page
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     */
+    public function search()
+    {
+        \OC_Util::checkSubAdminUser();
+
+        $params = [];
+
+        // copy/paste from owncloud/settings/users.php
+        // load preset quotas
+        $quotaPreset = \OC::$server->getConfig()->getAppValue('files', 'quota_preset', '1 GB, 5 GB, 10 GB');
+        $quotaPreset = explode(',', $quotaPreset);
+        foreach($quotaPreset as &$preset) {
+            $preset = trim($preset);
+        }
+        $quotaPreset = array_diff($quotaPreset, ['default', 'none']);
+
+        $params['quota_preset'] = $quotaPreset;
+
+        return new TemplateResponse('lotsofusers', 'search', $params);
+    }
 }

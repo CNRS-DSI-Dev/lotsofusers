@@ -49,13 +49,7 @@
         });
     }
 
-    /**
-     * [search description]
-     * @param  {[type]} parameters [description]
-     * @return {[type]}            [description]
-     */
     function search(parameters) {
-console.log(parameters);
         $.ajax({
             url: OC.generateUrl('/apps/lotsofusers/api/v1/search'),
             method: 'POST',
@@ -63,6 +57,16 @@ console.log(parameters);
             dataType: 'json'
         })
         .done(function(data) {
+            if (parameters.action == 'export') {
+                var aLink = document.createElement("a");
+                aLink.href = 'data:application/csv;charset=utf-8,' + encodeURIComponent(data.csv);
+                aLink.download = 'userListExport.csv';
+                document.body.appendChild(aLink);
+                aLink.click();
+                aLink.remove();
+                return
+            }
+
             if (data.users) {
                 if ($('#searchResults ul').length) {
                     $('#searchResults ul').empty();
@@ -71,6 +75,7 @@ console.log(parameters);
                 else {
                     $_ul = $('<ul>');
                 }
+
                 $.each(data.users, function(idx, user) {
                     var uid = user.uid;
                     uid = ' <a href="'
@@ -110,6 +115,15 @@ console.log(parameters);
 
                     $_ul.append($user_p);
                 });
+
+                if (_.size(data.users) < data.usersNb) {
+                    // var missing = data.usersNb - _.size(data.users);
+                    $_usersNb = $('<li>');
+                    $_usersNb.text(t('lotsofusers', '{nb} more users...', {nb: data.usersNb - _.size(data.users)}));
+
+                    $_ul.append($_usersNb);
+                }
+
                 $('#searchResults').append($_ul);
             }
         });
@@ -590,10 +604,10 @@ console.log(parameters);
 
         // ============= search page
         if ($('#app-search').length) {
-            $('#searchForm').on('submit', function(e) {
+            $('#searchForm #formAction').on('click', 'input[type=submit]', function(e) {
                 e.preventDefault();
-                var locale = moment.locale();
 
+                var locale = moment.locale();
                 var quotaMin = $('#userQuota').val();
                 var userId = $('#userId').val();
                 var groupId = $('#groupId').val();
@@ -621,6 +635,7 @@ console.log(parameters);
                 }
 
                 search({
+                    action: e.currentTarget.id,
                     quotaMin: quotaMin,
                     userId: userId,
                     groupId: groupId,

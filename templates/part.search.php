@@ -26,7 +26,9 @@
         <input type="date" name="lastUserConnectionTo" id="lastUserConnectionTo">
     </div>
 </div>
-<div id="formAction"><input type="submit" value="<?php p($l->t('Search')); ?>"></div>
+<div id="formAction">
+    <input type="submit" id="search" value="<?php p($l->t('Search')); ?>">
+    <input type="submit" id="export" value="<?php p($l->t('Export')); ?>"></div>
 </form>
 
 <div id="searchResults">

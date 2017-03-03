@@ -226,6 +226,10 @@ class ApiController extends Controller
             );
         }
 
+        if ($isAdmin) {
+            $isSubAdmin = false; // in OC code, admin IS subadmin, but is not associated on any group...
+        }
+
         $quotaMin = \OCP\Util::computerFileSize($this->params('quotaMin', 0));
         $uidContains = $this->params('userId', '');
         $gidContains = $this->params('groupId', '');
@@ -241,12 +245,30 @@ class ApiController extends Controller
         ];
 
         // TODO: comment gérer le critère "quota"
-        $userIds = $this->userService->users($params, $this->userId, $isSubAdmin);
-        // TODO: limiter le nb de résultats, indiquer le nb de résultats total
-        // TODO: proposer un export CSV complet (tous les résultats)
+        $users = $this->userService->users($params, $this->userId, $isSubAdmin);
+        $usersNb = count($users);
 
+        if ($this->params('action') == 'export') {
+            $act = 'export'; // application/vnd.ms-excel
+            $text = print_r($usersList, true);
+
+            $csv = '';
+            foreach($users as $uid => $user) {
+                $csv .= '"' . $uid . '"';
+                $csv .= ',"' . date('d/m/Y', $user['lastConnection']) . '"';
+                $csv .= ',"' . $user['quota'] . '"';
+                $csv .= ',"' . join(', ', $user['groupIds']) . '"';
+                $csv .= "\n";
+            }
+
+            // return new DataDownloadResponse($csv, 'usersList.csv', 'text/csv');
+            return new JSONResponse(['csv' => $csv]);
+        }
+
+        $users = array_slice($users, 0, self::MAX_RESULTS);
         $usersList = [
-            'users' => $userIds,
+            'usersNb' => $usersNb,
+            'users' => $users,
         ];
 
         return new JSONResponse($usersList);

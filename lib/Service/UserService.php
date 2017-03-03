@@ -66,14 +66,14 @@ class UserService
             $parameters[':lastConnectionTo'] = $lastConnectionTo;
         }
 
+        $subAdminJoin = '';
         $subAdminClause = '';
         if ($isSubAdmin) {
+            $subAdminJoin = ' LEFT JOIN oc_group_user AS ocg2 ON ocg2.uid = oc_users.uid ';
             $subAdminClause = ' AND ocg2.gid IN (SELECT gid FROM oc_group_admin WHERE uid = :currentUserId) ';
             $parameters[':currentUserId'] = $currentUserId;
         }
 
-        // select oc_users.uid, ocp1.configvalue as lastConnection, ocp2.configvalue as quota, group_concat(distinct oc_group_user.gid separator ', ') as groupIds  from oc_users left join oc_preferences as ocp1 on ocp1.userid = oc_users.uid and ocp1.configkey = "lastLogin" left join oc_preferences as ocp2 on ocp2.userid = oc_users.uid and ocp2.configkey = 'quota' left join oc_group_user on oc_group_user.uid = oc_users.uid where ocp1.userid like "%lus%" group by uid;
-        //
         // select oc_users.uid, ocp1.configvalue as lastConnection, ocp2.configvalue as quota, group_concat(distinct oc_group_user.gid separator ', ') as groupIds  from oc_users left join oc_preferences as ocp1 on ocp1.userid = oc_users.uid and ocp1.configkey = "lastLogin" left join oc_preferences as ocp2 on ocp2.userid = oc_users.uid and ocp2.configkey = 'quota' left join oc_group_user on oc_group_user.uid = oc_users.uid left join oc_group_user as ocg2 on ocg2.uid = oc_users.uid where ocp1.userid like "%lus%" and ocg2.gid in (select gid from oc_group_admin where uid = 'luser1') group by uid;
         $sql = 'SELECT oc_users.uid,
             ocp1.configvalue AS lastConnection,
@@ -81,9 +81,9 @@ class UserService
             GROUP_CONCAT(distinct oc_group_user.gid separator ", ") AS groupIds
             FROM oc_users
             LEFT JOIN oc_preferences AS ocp1 ON ocp1.userid = oc_users.uid AND ocp1.configkey = "lastLogin"
-            LEFT JOIN oc_preferences AS ocp2 ON ocp1.userid = oc_users.uid AND ocp2.configkey = "quota"
+            LEFT JOIN oc_preferences AS ocp2 ON ocp2.userid = oc_users.uid AND ocp2.configkey = "quota"
             LEFT JOIN oc_group_user ON oc_group_user.uid = oc_users.uid
-            LEFT JOIN oc_group_user AS ocg2 ON ocg2.uid = oc_users.uid
+            ' . $subAdminJoin . '
             WHERE 1 = 1 ' . $clause . $subAdminClause . '
             GROUP BY uid
         ';

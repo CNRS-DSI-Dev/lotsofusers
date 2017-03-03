@@ -45,7 +45,8 @@ OC.L10N.register(
         "User ID (contains)" : "Identifiant utilisateur (contient)",
         "Group ID (contains)" : "Groupe (contient)",
         "Last connection (From)" : "Dernière connexion (à partir de)",
-        "Last connection (To)" : "Dernière connexion (jusqu'à)"
+        "Last connection (To)" : "Dernière connexion (jusqu'à)",
+        "Export": "Exporter"
     },
     "nplurals=2; plural=(n > 1);"
 );

@@ -39,7 +39,13 @@ OC.L10N.register(
         "Set admin" : "Rendre administrateur de",
         "Restore requests" : "Requêtes de restoration",
         "Waiting migration requests" : "Requêtes de migration en attente",
-        "d - " : "j - "
+        "d - " : "j - ",
+        "Enter your search criteria" : "Saisissez vos critères de recherche",
+        "Search" : "Rechercher",
+        "User ID (contains)" : "Identifiant utilisateur (contient)",
+        "Group ID (contains)" : "Groupe (contient)",
+        "Last connection (From)" : "Dernière connexion (à partir de)",
+        "Last connection (To)" : "Dernière connexion (jusqu'à)"
     },
     "nplurals=2; plural=(n > 1);"
 );

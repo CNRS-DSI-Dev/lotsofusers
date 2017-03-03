@@ -72,9 +72,23 @@ console.log(parameters);
                     $_ul = $('<ul>');
                 }
                 $.each(data.users, function(idx, user) {
-                    groups = '';
+                    var uid = user.uid;
+                    uid = ' <a href="'
+                        + OC.generateUrl('/apps/lotsofusers/users/'+ uid)
+                        + '">'
+                        + uid
+                        + '</a>';
+
+                    var groups = '';
                     if (user.groupIds) {
-                        var groups = ', groups: ' + user.groupIds;
+                        groups = ', groups: ';
+                        $.each(user.groupIds, function(idx, groupId) {
+                            groups = groups + ' <a href="'
+                            + OC.generateUrl('/apps/lotsofusers/groups/'+ groupId)
+                            + '">'
+                            + groupId
+                            + '</a>';
+                        })
                     }
 
                     lastConnection = '';
@@ -92,7 +106,7 @@ console.log(parameters);
                     }
 
                     $user_p = $('<li>');
-                    $user_p.text(user.uid + groups + lastConnection)
+                    $user_p.html(uid + groups + lastConnection)
 
                     $_ul.append($user_p);
                 });
@@ -578,27 +592,41 @@ console.log(parameters);
         if ($('#app-search').length) {
             $('#searchForm').on('submit', function(e) {
                 e.preventDefault();
+                var locale = moment.locale();
 
                 var quotaMin = $('#userQuota').val();
                 var userId = $('#userId').val();
                 var groupId = $('#groupId').val();
 
-                var lastConnectionAfter = $('#lastUserConnection').val();
-                var locale = moment.locale();
-                if (locale == 'fr') {
-                    lastConnectionAfter = moment(lastConnectionAfter, 'DD/MM/YYYY');
+                var lastConnectionFrom = $('#lastUserConnectionFrom').val();
+                if (lastConnectionFrom) {
+                    if (locale == 'fr') {
+                        lastConnectionFrom = moment(lastConnectionFrom, 'DD/MM/YYYY');
+                    }
+                    else {
+                        lastConnectionFrom = moment(lastConnectionFrom, 'MM/DD/YYYY');
+                    }
+                    lastConnectionFrom = lastConnectionFrom.unix();
                 }
-                else {
-                    lastConnectionAfter = moment(lastConnectionAfter, 'MM/DD/YYYY');
+
+                var lastConnectionTo = $('#lastUserConnectionTo').val();
+                if (lastConnectionTo) {
+                    if (locale == 'fr') {
+                        lastConnectionTo = moment(lastConnectionTo, 'DD/MM/YYYY');
+                    }
+                    else {
+                        lastConnectionTo = moment(lastConnectionTo, 'MM/DD/YYYY');
+                    }
+                    lastConnectionTo = lastConnectionTo.unix();
                 }
-                lastConnectionAfter = lastConnectionAfter.unix();
 
                 search({
                     quotaMin: quotaMin,
                     userId: userId,
                     groupId: groupId,
-                    lastConnectionAfter: lastConnectionAfter
-                })
+                    lastConnectionFrom: lastConnectionFrom,
+                    lastConnectionTo: lastConnectionTo
+                });
             });
         }
     });

@@ -201,22 +201,47 @@ class ApiController extends Controller
         return new JSONResponse($diskUsage);
     }
 
+    /**
+     * Returns list of users
+     * @NoAdminRequired
+     * @return json
+     */
     function search() {
+        \OC_Util::checkSubAdminUser();
+
+        $isAdmin = $this->groupManager->isAdmin($this->userId);
+
+        $currentUser = $this->userManager->get($this->userId);
+        $isSubAdmin = $this->groupManager->getSubAdmin()->isSubAdmin($currentUser);
+
+        if (!$isSubAdmin) {
+            return new DataResponse(
+                [
+                    'status' => 'error',
+                    'data' => [
+                        'message' => (string)$this->l10n->t('Authentication error')
+                    ]
+                ],
+                Http::STATUS_FORBIDDEN
+            );
+        }
+
         $quotaMin = \OCP\Util::computerFileSize($this->params('quotaMin', 0));
         $uidContains = $this->params('userId', '');
         $gidContains = $this->params('groupId', '');
-        $lastConnectionAfter = $this->params('lastConnectionAfter', '');
+        $lastConnectionFrom = $this->params('lastConnectionFrom', '');
+        $lastConnectionTo = $this->params('lastConnectionTo', '');
 
         $params = [
             'quotaMin' => $quotaMin,
             'uidContains' => $uidContains,
             'gidContains' => $gidContains,
-            'lastConnectionAfter' => $lastConnectionAfter,
+            'lastConnectionFrom' => $lastConnectionFrom,
+            'lastConnectionTo' => $lastConnectionTo
         ];
 
         // TODO: comment gérer le critère "quota"
-        $userIds = $this->userService->users($params);
-        // TODO: filtrer le résultat pour les subadmins
+        $userIds = $this->userService->users($params, $this->userId, $isSubAdmin);
         // TODO: limiter le nb de résultats, indiquer le nb de résultats total
         // TODO: proposer un export CSV complet (tous les résultats)
 

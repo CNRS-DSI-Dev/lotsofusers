@@ -24,7 +24,7 @@ class Helper {
             WHERE m.mount_point = CONCAT('/', :username, '/')
                 AND s.numeric_id = m.storage_id
                 AND fc.storage = m.storage_id
-                AND fc.name = 'files'";
+                AND fc.path = 'files'";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute([

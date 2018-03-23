@@ -169,12 +169,38 @@
                     t('lotsofusers', 'Confirm modification of {username} password ?', {username: username}),
                     t('lotsofusers', 'Password modification'),
                     function(okToChange) {
-                        if (okToChange) {
+                        if (okTinfoChange) {
                              changePassword(username, password);
                         }
                     }
                 );
             });
+
+            //SCAN FILES
+			$('#scan').on('click', function() {
+		var username = $('#username').val();
+		$('#scan-witness').attr('src', '/core/img/loading-small-dark.gif');
+		$.ajax({
+                    url: OC.generateUrl('/apps/lotsofusers/api/v1/scan/' + username),
+                    success: function(result) {
+                        if (!result) {
+                            //result = "scan failed";
+			    $('#scan-witness').attr('src', '/core/img/actions/error.svg');
+                        }
+                        else {
+			    if(result.status == "success"){
+				$('#scan-witness').attr('src', '/core/img/actions/checkmark.svg');
+
+			    }
+                            else{
+				//result = "scan ok";
+			    	$('#scan-witness').attr('src', '/core/img/actions/error.svg');
+			    }
+                        }
+                    }
+                });
+
+           });
 
             // set new quota
             $('#disk img').attr('title', t('lotsofusers', 'Please enter storage quota (ex: "512 MB" or "12 GB")'));

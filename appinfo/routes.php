@@ -23,11 +23,13 @@ return [
        ['verb' => 'GET',  'name' => 'page#user', 'url' => '/users/{username}'],
        ['verb' => 'GET',  'name' => 'page#groups', 'url' => '/groups'],
        ['verb' => 'GET',  'name' => 'page#group', 'url' => '/groups/{groupname}'],
-
+		['verb' => 'GET',  'name' => 'page#scan', 'url' => '/users/{uid}'],
        ['verb' => 'GET',  'name' => 'api#users', 'url' => '/api/v1/users/{login}'],
        ['verb' => 'GET',  'name' => 'api#groups', 'url' => '/api/v1/groups/{gid}'],
        ['verb' => 'GET',  'name' => 'api#user', 'url' => '/api/v1/user/{login}'],
        ['verb' => 'POST', 'name' => 'api#userCreate', 'url' => '/api/v1/user'],
        ['verb' => 'GET',  'name' => 'api#diskUsage', 'url' => '/api/v1/diskusage/{uid}'],
+		['verb' => 'GET',  'name' => 'api#scan', 'url' => '/api/v1/scan/{uid}'],
+
     ]
 ];

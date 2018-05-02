@@ -197,20 +197,4 @@ class ApiController extends Controller
         $diskUsage = $this->helper->diskUsage($uid)['size'];
         return new JSONResponse($diskUsage);
     }
-
-	/**
-	 * Returns disk usage for a user
-	 * @NoAdminRequired
-	 * @param  string $uid User id
-	 * @return json
-	 */
-    public function scan($uid){
-
-		$user = $this->userManager->get($uid);
-
-		$scan= $this->helper->scan($uid);
-
-		return new JSONResponse($scan);
-
-	}
 }

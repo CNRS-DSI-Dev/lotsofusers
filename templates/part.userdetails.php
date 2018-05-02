@@ -11,8 +11,7 @@
 
     <button id="deluser" class="louButton"><?php p($l->t('Delete this user')); ?></button>
     <button id="changepass" class="louButton"><?php p($l->t('Change local password')); ?></button>
-	
-	<input id="newpass" type="password"> <button id="validatepass" class="louButton"><?php p($l->t('Validate local password')); ?></button>
+    <input id="newpass" type="password"> <button id="validatepass" class="louButton"><?php p($l->t('Validate local password')); ?></button>
 </div>
 
 <div id="mycore" class="dataBlock">
@@ -37,15 +36,11 @@
     <input type="hidden" name="username" id="username" value="<?php p($_['username']); ?>">
     <button id="setquota" class="louButton"><?php p($l->t('Set quota')); ?></button>
     <img src="<?php p(\OC::$server->getURLGenerator()->imagePath('lotsofusers', 'help.png')); ?>" />
-
-<span style="float: right;margin-right: 1em;">
-    <img id="scan-witness" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
-    <button id="scan" class="louButton"><?php p($l->t('Scan Files')); ?></button>
-</span>
 </div>
 
 <div id="groups" class="dataBlock">
     <p class="header"><?php p($l->t('Groups')); ?></span></p>
+
     <div class="user">
         <p><?php p($l->t('Member of')); ?></p>
         <div class="groupList">

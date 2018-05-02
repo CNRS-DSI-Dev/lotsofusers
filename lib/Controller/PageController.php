@@ -183,18 +183,4 @@ class PageController extends Controller
         ];
         return new TemplateResponse('lotsofusers', 'group', $params);
     }
-
-	/**
-	 * Returns scanfiles for a user
-	 * @NoAdminRequired
-	 * @param  string $uid Username
-	 * @return page
-	 */
-	public function scan($uid){
-
-		$user = $this->userManager->get($uid);
-
-		return null;
-
-	}
 }

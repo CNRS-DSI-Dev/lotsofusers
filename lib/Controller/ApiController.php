@@ -11,6 +11,9 @@
 
 namespace OCA\LotsOfUsers\Controller;
 
+use OC\Files\Utils\Scanner;
+use OCP\Files\NotFoundException;
+
 use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\JSONResponse;
@@ -197,4 +200,47 @@ class ApiController extends Controller
         $diskUsage = $this->helper->diskUsage($uid)['size'];
         return new JSONResponse($diskUsage);
     }
+
+    /**
+     * Scan user filesystem
+     * @param  string $uid User id
+     * @return json
+     */
+    public function scan($uid){
+        $uid = htmlspecialchars($uid);
+        $jsonReturn = array(
+                            'status' => 'error',
+                            'data' => array(
+                                'msg' => '',
+           	                    ),
+                            );
+        try {
+
+            $user = $this->userManager->get($uid);
+
+            if($user == null){
+                throw new NotFoundException('incorrect uid');
+            }
+            else{
+                $scanner = new Scanner(
+                    $user->getUID(),
+                    \OC::$server->getDatabaseConnection(),
+                    \OC::$server->getLogger()
+                );
+
+                $scanner->scan('', true);
+
+                $jsonReturn['status'] = 'success';
+                $jsonReturn['data']['msg'] = 'Scan successful';
+            }
+        } catch (\Exception $e) {
+
+            $jsonReturn['status'] = 'error';
+            $jsonReturn['data']['msg'] = $e->getMessage();
+
+            return new JSONResponse($jsonReturn);
+        }
+
+        return new JSONResponse($jsonReturn);
+    }    
 }

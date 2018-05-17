@@ -24,6 +24,7 @@ return [
        ['verb' => 'GET',  'name' => 'page#groups', 'url' => '/groups'],
        ['verb' => 'GET',  'name' => 'page#group', 'url' => '/groups/{groupname}'],
 
+       ['verb' => 'GET',  'name' => 'api#scan', 'url' => '/api/v1/scan/{uid}'],
        ['verb' => 'GET',  'name' => 'api#users', 'url' => '/api/v1/users/{login}'],
        ['verb' => 'GET',  'name' => 'api#groups', 'url' => '/api/v1/groups/{gid}'],
        ['verb' => 'GET',  'name' => 'api#user', 'url' => '/api/v1/user/{login}'],

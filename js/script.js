@@ -176,6 +176,26 @@
                 );
             });
 
+			//SCAN FILES
+			$('#scan').on('click', function() {
+				var username = $('#username').val();
+				$('#scan-witness').attr('src', '/core/img/loading-small-dark.gif');
+				$.ajax({
+                    url: OC.generateUrl('/apps/lotsofusers/api/v1/scan/' + username),
+                    success: function(result) {
+                        if (result && result == "success") {
+                            //is OK
+                            $('#scan-witness').attr('src', '/core/img/actions/checkmark.svg');
+							
+                        }
+                        else {
+                            //is failed
+                            $('#scan-witness').attr('src', '/core/img/actions/error.svg');
+						}
+					}
+				});
+			});
+
             // set new quota
             $('#disk img').attr('title', t('lotsofusers', 'Please enter storage quota (ex: "512 MB" or "12 GB")'));
 
